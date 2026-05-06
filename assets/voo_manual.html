@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOO — Manual de Uso</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --voo-purple: #D78BFF;
+  --voo-purple-dim: rgba(215,139,255,0.12);
+  --voo-purple-glow: rgba(215,139,255,0.06);
+  --voo-green: #2CF575;
+  --voo-yellow: #FFD166;
+  --voo-red: #FF6B6B;
+  --voo-bg: #0B0B0F;
+  --voo-surface: #111117;
+  --voo-card: #17171F;
+  --voo-border: rgba(215,139,255,0.22);
+  --voo-border-sub: rgba(255,255,255,0.07);
+  --voo-text: #F0F0F5;
+  --voo-muted: rgba(240,240,245,0.5);
+  --voo-muted2: rgba(240,240,245,0.28);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--voo-bg);
+  color: var(--voo-text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 70% 45% at 10% 0%, rgba(215,139,255,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 90% 100%, rgba(44,245,117,0.04) 0%, transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+.wrap { position:relative; z-index:1; }
+
+/* HEADER — hidden */
+header { display:none; }
+
+/* HERO */
+.hero {
+  max-width:920px; margin:0 auto;
+  padding:52px clamp(1rem,5vw,3rem) 56px;
+  text-align:center;
+}
+.hero-tag { display:none; }
+.voo-logo-title {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(3.5rem,11vw,7rem);
+  font-weight:700; letter-spacing:-3px; line-height:1;
+  margin-bottom:28px;
+  display:inline-block;
+}
+.voo-logo-title .v { color:#2CF575; text-shadow:0 0 40px rgba(44,245,117,0.35); }
+.voo-logo-title .o1 { color:#FFD166; text-shadow:0 0 40px rgba(255,209,102,0.35); }
+.voo-logo-title .o2 { color:#FF6B6B; text-shadow:0 0 40px rgba(255,107,107,0.35); }
+.hero-subtitle {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1rem,2.5vw,1.4rem);
+  font-weight:500; color:var(--voo-muted);
+  margin-bottom:10px; letter-spacing:-0.2px;
+}
+.hero p {
+  font-size:16px; color:var(--voo-muted); max-width:480px;
+  margin:0 auto 36px; line-height:1.6;
+}
+.quick-nav {
+  display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+}
+.qn-btn {
+  display:flex; align-items:center; gap:7px;
+  text-decoration:none; font-size:13.5px; font-weight:500;
+  padding:9px 18px; border-radius:999px;
+  border:1px solid var(--voo-border-sub);
+  color:var(--voo-muted); background:var(--voo-card);
+  transition:all 0.2s;
+}
+.qn-btn:hover {
+  border-color:var(--voo-border); color:var(--voo-purple);
+  background:var(--voo-purple-dim);
+}
+.qn-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+/* LAYOUT */
+.layout {
+  max-width:920px; margin:0 auto;
+  padding:0 clamp(1rem,5vw,3rem) 80px;
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:40px; align-items:start;
+}
+@media(max-width:700px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar { display:none; }
+}
+
+/* SIDEBAR */
+.sidebar { position:sticky; top:24px; }
+.sb-section { margin-bottom:22px; }
+.sb-label {
+  font-size:10.5px; font-weight:600; letter-spacing:1.2px;
+  text-transform:uppercase; color:var(--voo-muted2);
+  padding:0 8px; margin-bottom:5px;
+}
+.sb-link {
+  display:flex; align-items:center; gap:8px;
+  text-decoration:none; font-size:13px; color:var(--voo-muted);
+  padding:7px 10px; border-radius:8px;
+  border:1px solid transparent; transition:all 0.15s;
+}
+.sb-link:hover, .sb-link.act {
+  background:var(--voo-purple-dim);
+  border-color:var(--voo-border);
+  color:var(--voo-purple);
+}
+.sb-ico { font-size:14px; width:18px; text-align:center; flex-shrink:0; }
+
+/* CONTENT */
+.content section {
+  margin-bottom:60px;
+  scroll-margin-top:24px;
+}
+.sec-hdr {
+  display:flex; align-items:center; gap:14px;
+  margin-bottom:26px; padding-bottom:18px;
+  border-bottom:1px solid var(--voo-border-sub);
+}
+.sec-ico {
+  width:44px; height:44px; border-radius:12px;
+  background:var(--voo-purple-dim); border:1px solid var(--voo-border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; flex-shrink:0;
+}
+.sec-hdr h2 {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:21px; font-weight:600; letter-spacing:-0.5px;
+}
+.sec-hdr p { font-size:13px; color:var(--voo-muted); margin-top:2px; }
+
+/* CARD */
+.card {
+  background:var(--voo-card); border:1px solid var(--voo-border-sub);
+  border-radius:14px; padding:18px 22px; margin-bottom:12px;
+  transition:border-color 0.2s;
+}
+.card:hover { border-color:var(--voo-border); }
+.card h3 {
+  font-family:'Space Grotesk',sans-serif; font-size:15px;
+  font-weight:600; margin-bottom:7px; letter-spacing:-0.2px;
+}
+.card p { font-size:14px; color:var(--voo-muted); line-height:1.65; }
+
+/* STEPS */
+.steps { display:flex; flex-direction:column; gap:0; }
+.step { display:grid; grid-template-columns:36px 1fr; gap:12px; position:relative; }
+.step:not(:last-child)::after {
+  content:''; position:absolute;
+  left:17px; top:38px; bottom:-6px;
+  width:1px; background:var(--voo-border-sub);
+}
+.step-num {
+  width:36px; height:36px; border-radius:50%;
+  background:var(--voo-purple-dim); border:1px solid var(--voo-border);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Grotesk',sans-serif; font-size:12px;
+  font-weight:700; color:var(--voo-purple);
+  flex-shrink:0; position:relative; z-index:1;
+}
+.step-body { padding-bottom:18px; }
+.step-body h4 {
+  font-family:'Space Grotesk',sans-serif; font-size:14.5px;
+  font-weight:600; margin-bottom:5px;
+}
+.step-body p { font-size:13.5px; color:var(--voo-muted); line-height:1.65; }
+.note {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:12px; color:var(--voo-purple);
+  background:var(--voo-purple-dim); border:1px solid var(--voo-border);
+  padding:4px 9px; border-radius:6px; margin-top:7px;
+}
+
+/* STATUS GRID */
+.status-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
+.sp {
+  border-radius:12px; padding:16px 12px; border:1px solid; text-align:center;
+}
+.sp.g { background:rgba(44,245,117,0.07); border-color:rgba(44,245,117,0.25); }
+.sp.y { background:rgba(255,209,102,0.07); border-color:rgba(255,209,102,0.25); }
+.sp.r { background:rgba(255,107,107,0.07); border-color:rgba(255,107,107,0.25); }
+.sp-dot { width:16px; height:16px; border-radius:50%; margin:0 auto 9px; }
+.sp-dot.g { background:var(--voo-green); box-shadow:0 0 10px rgba(44,245,117,0.4); }
+.sp-dot.y { background:var(--voo-yellow); box-shadow:0 0 10px rgba(255,209,102,0.4); }
+.sp-dot.r { background:var(--voo-red); box-shadow:0 0 10px rgba(255,107,107,0.4); }
+.sp strong { display:block; font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; margin-bottom:4px; }
+.sp.g strong { color:var(--voo-green); }
+.sp.y strong { color:var(--voo-yellow); }
+.sp.r strong { color:var(--voo-red); }
+.sp p { font-size:12px; color:var(--voo-muted); line-height:1.5; }
+
+/* POWER CARDS */
+.pcard {
+  background:var(--voo-card); border:1px solid var(--voo-border-sub);
+  border-radius:14px; padding:18px 20px; margin-bottom:10px;
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:14px; align-items:start; transition:border-color 0.2s;
+}
+.pcard:hover { border-color:var(--voo-border); }
+.plvl {
+  width:40px; height:40px; border-radius:11px;
+  background:var(--voo-purple-dim); border:1px solid var(--voo-border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:19px; flex-shrink:0;
+}
+.pinfo h4 {
+  font-family:'Space Grotesk',sans-serif; font-size:14.5px;
+  font-weight:600; margin-bottom:5px;
+}
+.pinfo p { font-size:13px; color:var(--voo-muted); line-height:1.6; }
+.ppts {
+  font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:700;
+  color:var(--voo-purple); background:var(--voo-purple-dim);
+  border:1px solid var(--voo-border); padding:4px 10px;
+  border-radius:999px; white-space:nowrap;
+}
+
+/* RETO STATES */
+.reto-states { display:flex; flex-direction:column; gap:8px; margin-top:14px; }
+.rstate {
+  display:flex; align-items:center; gap:11px;
+  background:var(--voo-card); border:1px solid var(--voo-border-sub);
+  border-radius:9px; padding:10px 14px; font-size:13px;
+}
+.rdot {
+  width:11px; height:11px; border-radius:50%; flex-shrink:0;
+}
+.rdot.g { background:var(--voo-green); }
+.rdot.y { background:var(--voo-yellow); }
+.rdot.r { background:var(--voo-red); }
+.rdot.b { background:#60B4FF; }
+.rdot.p { background:#FF82C8; }
+.rstate strong { font-weight:600; margin-right:3px; }
+.rstate span { color:var(--voo-muted); }
+
+/* INFO BOX */
+.ibox {
+  background:var(--voo-purple-dim); border:1px solid var(--voo-border);
+  border-radius:11px; padding:14px 18px;
+  font-size:13.5px; line-height:1.65;
+  color:rgba(215,139,255,0.9); margin:14px 0;
+}
+.ibox strong { color:var(--voo-purple); font-weight:600; }
+
+/* TABS */
+.tabs {
+  display:flex; gap:3px; margin-bottom:18px;
+  background:var(--voo-surface); padding:4px;
+  border-radius:11px; border:1px solid var(--voo-border-sub);
+}
+.tbtn {
+  flex:1; padding:8px 14px; border-radius:8px; border:none;
+  background:transparent; color:var(--voo-muted);
+  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
+  cursor:pointer; transition:all 0.2s;
+}
+.tbtn.act {
+  background:var(--voo-purple-dim); border:1px solid var(--voo-border);
+  color:var(--voo-purple);
+}
+.tc { display:none; }
+.tc.act { display:block; }
+
+/* NAV ITEMS */
+.nav-items { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.nitem {
+  background:var(--voo-card); border:1px solid var(--voo-border-sub);
+  border-radius:12px; padding:14px 16px; transition:border-color 0.2s;
+}
+.nitem:hover { border-color:var(--voo-border); }
+.nico { font-size:20px; margin-bottom:7px; }
+.nitem h4 {
+  font-family:'Space Grotesk',sans-serif; font-size:13.5px;
+  font-weight:600; margin-bottom:3px;
+}
+.nitem p { font-size:12px; color:var(--voo-muted); line-height:1.5; }
+
+/* FAQ */
+.faq-item { border-bottom:1px solid var(--voo-border-sub); }
+.fq {
+  width:100%; background:none; border:none; color:var(--voo-text);
+  font-family:'DM Sans',sans-serif; font-size:14.5px; font-weight:500;
+  padding:16px 4px; text-align:left; cursor:pointer;
+  display:flex; justify-content:space-between; align-items:center;
+  transition:color 0.2s;
+}
+.fq:hover { color:var(--voo-purple); }
+.fq-arrow { font-size:16px; transition:transform 0.2s; color:var(--voo-muted); }
+.fq.open .fq-arrow { transform:rotate(90deg); color:var(--voo-purple); }
+.fa {
+  font-size:13.5px; color:var(--voo-muted); line-height:1.65;
+  padding:0 4px 16px; display:none;
+}
+.fa.open { display:block; }
+
+/* FOOTER */
+footer {
+  background:var(--voo-surface); border-top:1px solid var(--voo-border-sub);
+  padding:32px clamp(1rem,5vw,3rem);
+  text-align:center;
+}
+.footer-inner { max-width:920px; margin:0 auto; }
+footer p { font-size:13px; color:var(--voo-muted); }
+footer a { color:var(--voo-purple); text-decoration:none; }
+
+/* BADGE */
+.badge {
+  display:inline-block; font-size:11px; font-weight:600;
+  padding:2px 8px; border-radius:999px; margin-left:6px;
+  vertical-align:middle;
+}
+.badge.host { background:rgba(215,139,255,0.15); color:var(--voo-purple); border:1px solid var(--voo-border); }
+.badge.guest { background:rgba(44,245,117,0.1); color:var(--voo-green); border:1px solid rgba(44,245,117,0.25); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">Voo</div>
+      <span class="logo-text">VOO <span class="logo-sub">Manual</span></span>
+    </a>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#sala">Sala</a>
+      <a href="#interfaz">Interfaz</a>
+      <a href="#juego">Juego</a>
+      <a href="#ajustes">Ajustes</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="voo-logo-title"><span class="v">V</span><span class="o1">O</span><span class="o2">O</span></div>
+  <p class="hero-subtitle">Manual de uso</p>
+  <p>La app que gamifica las fiestas y te ayuda a conocer gente nueva sin el miedo al rechazo.</p>
+  <div class="quick-nav">
+    <a href="#inicio" class="qn-btn"><span class="qn-dot" style="background:#D78BFF"></span>¿Qué es VOO?</a>
+    <a href="#registro" class="qn-btn"><span class="qn-dot" style="background:#2CF575"></span>Registro</a>
+    <a href="#sala" class="qn-btn"><span class="qn-dot" style="background:#FFD166"></span>Crear / Unirse a sala</a>
+    <a href="#interfaz" class="qn-btn"><span class="qn-dot" style="background:#60B4FF"></span>Interfaz</a>
+    <a href="#juego" class="qn-btn"><span class="qn-dot" style="background:#FF82C8"></span>Juego y puntos</a>
+    <a href="#ajustes" class="qn-btn"><span class="qn-dot" style="background:#FF6B6B"></span>Ajustes</a>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-section">
+      <div class="sb-label">General</div>
+      <a href="#inicio" class="sb-link"><span class="sb-ico">✦</span>¿Qué es VOO?</a>
+      <a href="#registro" class="sb-link"><span class="sb-ico">👤</span>Registro</a>
+      <a href="#estado" class="sb-link"><span class="sb-ico">🟢</span>Tu estado</a>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Sala</div>
+      <a href="#sala" class="sb-link"><span class="sb-ico">🏠</span>Crear sala</a>
+      <a href="#unirse" class="sb-link"><span class="sb-ico">🚪</span>Unirse a sala</a>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Uso</div>
+      <a href="#interfaz" class="sb-link"><span class="sb-ico">📱</span>Interfaz</a>
+      <a href="#chats" class="sb-link"><span class="sb-ico">💬</span>Chats y retos</a>
+      <a href="#juego" class="sb-link"><span class="sb-ico">🏆</span>Juego y puntos</a>
+      <a href="#poderes" class="sb-link"><span class="sb-ico">⚡</span>Poderes VOO</a>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Más</div>
+      <a href="#ajustes" class="sb-link"><span class="sb-ico">⚙️</span>Ajustes</a>
+      <a href="#faq" class="sb-link"><span class="sb-ico">❓</span>Preguntas frecuentes</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- ¿QUÉ ES VOO? -->
+    <section id="inicio">
+      <div class="sec-hdr">
+        <div class="sec-ico">✦</div>
+        <div>
+          <h2>¿Qué es VOO?</h2>
+          <p>La app que convierte cualquier evento en una experiencia social</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>La idea</h3>
+        <p>VOO es una <strong>social party app</strong> que gamifica la interacción en fiestas y eventos. Conoce a otros asistentes mediante el sistema de semáforo, completa misiones, gana puntos y consigue premios reales. Todo sin el estrés de no saber qué decir.</p>
+      </div>
+      <div class="card">
+        <h3>Slogan</h3>
+        <p><em>"Es ahora o nunca"</em> — la conexión sucede en el momento. VOO facilita ese primer paso.</p>
+      </div>
+      <div class="card">
+        <h3>¿Cómo funciona en resumen?</h3>
+        <p>El organizador del evento <strong>crea una sala</strong> y genera un código único. Los invitados <strong>se unen</strong> con ese código, crean su perfil temporal, eligen su estado (semáforo) y entran a la sala. Una vez dentro, pueden ver la lista de asistentes, chatear, retar, escanear QRs y acumular puntos para ganar el premio mayor.</p>
+      </div>
+      <div class="ibox">
+        <strong>Importante:</strong> Todo el perfil y los datos de la sala son temporales. Al cerrar la sala, todo se elimina automáticamente. No hay cuentas permanentes.
+      </div>
+    </section>
+
+    <!-- REGISTRO -->
+    <section id="registro">
+      <div class="sec-hdr">
+        <div class="sec-ico">👤</div>
+        <div>
+          <h2>Registro</h2>
+          <p>El mismo flujo para host e invitado</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Foto de perfil</h4>
+            <p>Elige una foto desde tu galería. Esta foto es la que verán los demás asistentes y también se usará para la validación facial.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Datos básicos</h4>
+            <p>Introduce tu nombre, fecha de nacimiento e Instagram (opcional). Todos los campos son obligatorios salvo el IG.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Validación facial</h4>
+            <p>VOO activa tu cámara frontal para comparar tu cara en vivo con la foto de perfil que subiste. Si la coincidencia supera el 85%, tu perfil queda verificado y recibes el check ✓. Si no coincide, se te pedirá intentarlo de nuevo.</p>
+            <span class="note">⚡ Por tu seguridad y la de los demás asistentes</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Estado (semáforo)</h4>
+            <p>Elige cómo quieres que te conozcan en el evento. Este color aparece como borde de tu foto de perfil. Ver la sección <a href="#estado" style="color:var(--voo-purple)">Tu estado</a> para más detalle.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>3 preguntas rápidas</h4>
+            <p>Según tu estado, la app te hace 3 preguntas de afinidad. Las respuestas se usan para conectarte con personas afines y generar dinámicas de juego. No hay respuestas correctas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTADO -->
+    <section id="estado">
+      <div class="sec-hdr">
+        <div class="sec-ico">🟢</div>
+        <div>
+          <h2>Tu estado</h2>
+          <p>El sistema de semáforo de VOO</p>
+        </div>
+      </div>
+      <div class="status-grid">
+        <div class="sp g">
+          <div class="sp-dot g"></div>
+          <strong>Verde</strong>
+          <p>Soltero/a. Aquí para conocer a alguien especial.</p>
+        </div>
+        <div class="sp y">
+          <div class="sp-dot y"></div>
+          <strong>Amarillo</strong>
+          <p>Haciendo amigos. Abierto/a a nuevas conexiones.</p>
+        </div>
+        <div class="sp r">
+          <div class="sp-dot r"></div>
+          <strong>Rojo</strong>
+          <p>En pareja. En el evento pero comprometido/a.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>¿Para qué sirven las preguntas de afinidad?</h3>
+        <p>Las respuestas al cuestionario de 3 preguntas permiten que la app identifique quién en la sala piensa parecido a ti. Más adelante, con puntos suficientes, puedes desbloquear el <strong>Radar de Afinidad</strong> que te dice quién tiene respuestas en común contigo, dándote una excusa perfecta para romper el hielo.</p>
+      </div>
+      <div class="ibox">
+        <strong>Nota:</strong> Una vez dentro de la sala, tu perfil no se puede modificar. Elige tu estado con cuidado antes de entrar.
+      </div>
+    </section>
+
+    <!-- CREAR SALA -->
+    <section id="sala">
+      <div class="sec-hdr">
+        <div class="sec-ico">🏠</div>
+        <div>
+          <h2>Crear sala <span class="badge host">Host</span></h2>
+          <p>Solo para el organizador del evento</p>
+        </div>
+      </div>
+      <p style="font-size:14px; color:var(--voo-muted); margin-bottom:18px;">Después del registro personal, el host configura la sala del evento:</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Nombre de la sala</h4>
+            <p>El nombre que verán todos los asistentes al entrar (ej: "La Terraza de Juan", "Pool Party Verano 2025").</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Contexto del evento</h4>
+            <p>Elige entre: <strong>Pool Party</strong>, <strong>Cena formal</strong> o <strong>Reunión informal</strong>. Esto condiciona el tipo de retos y dinámicas que se generan.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Aforo</h4>
+            <p>Opciones: <strong>15–30 personas</strong> (gratuito), <strong>30–50</strong> o <strong>+50</strong> (requieren suscripción de 5€/mes). Salas grandes desbloquean funciones de ranking en pantalla externa.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Dirección y Código Postal</h4>
+            <p>Se usa para fijar el centro del radio de 2km. Solo los invitados que estén cerca del evento pueden entrar a la sala.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Premio mayor</h4>
+            <p>El incentivo para el invitado que acumule más puntos al final. Puede ser algo concreto o simplemente escribir "Sorpresa". Es obligatorio para motivar la participación.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h4>Premios para retos flash (opcional)</h4>
+            <p>Puedes añadir premios adicionales para retos específicos (ej: "Una copa gratis al primer QR escaneado"). Puedes añadir varios.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <h4>Código de sala generado</h4>
+            <p>Al confirmar, VOO genera automáticamente un <strong>código único</strong> (ej: CV7624X5) en formato imagen. Puedes guardarlo y compartirlo directamente por WhatsApp u otras apps.</p>
+            <span class="note">🔗 El host también participa en el evento como invitado más</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIRSE A SALA -->
+    <section id="unirse">
+      <div class="sec-hdr">
+        <div class="sec-ico">🚪</div>
+        <div>
+          <h2>Unirse a sala <span class="badge guest">Invitado</span></h2>
+          <p>Para los asistentes al evento</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Introduce el código de sala</h4>
+            <p>El host te habrá compartido el código único de 6–8 caracteres (ej: CV7624X5) por WhatsApp o similar. Introdúcelo en la pantalla de bienvenida.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Registro personal</h4>
+            <p>Sigue el mismo proceso de registro: foto, datos, validación facial, estado y preguntas de afinidad.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Permiso de ubicación</h4>
+            <p>VOO solicita tu ubicación para verificar que estás a menos de <strong>2 km</strong> del evento. Este permiso es de una sola vez al entrar.</p>
+            <span class="note">📍 Cada 3–4 horas recibirás una notificación para confirmar que sigues en el evento</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>¡Dentro!</h4>
+            <p>Ya estás en la sala. Verás la lista de asistentes con su foto, nombre, edad y color de estado.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ibox">
+        <strong>Si te pide confirmación de ubicación:</strong> Recibirás una notificación con el mensaje "¿Sigues en la fiesta?". Tienes <strong>10 minutos</strong> para confirmar. Si no respondes, el sistema te saca de la sala automáticamente.
+      </div>
+    </section>
+
+    <!-- INTERFAZ -->
+    <section id="interfaz">
+      <div class="sec-hdr">
+        <div class="sec-ico">📱</div>
+        <div>
+          <h2>Interfaz de la app</h2>
+          <p>Los cinco apartados principales</p>
+        </div>
+      </div>
+      <div class="nav-items">
+        <div class="nitem">
+          <div class="nico">🏠</div>
+          <h4>Home</h4>
+          <p>Lista de todos los asistentes con foto, nombre, edad y color de estado. Toca un perfil para interactuar.</p>
+        </div>
+        <div class="nitem">
+          <div class="nico">💬</div>
+          <h4>Chats</h4>
+          <p>Conversaciones activas con otros invitados. Solo aparecen chats aceptados mutuamente.</p>
+        </div>
+        <div class="nitem">
+          <div class="nico">🏆</div>
+          <h4>Ranking</h4>
+          <p>El top de invitados con más puntos en tiempo real. También puedes desbloquear tus Poderes VOO aquí.</p>
+        </div>
+        <div class="nitem">
+          <div class="nico">🎯</div>
+          <h4>Retos</h4>
+          <p>Retos flash activos, próximos y pasados. El host puede crear retos personalizados desde aquí.</p>
+        </div>
+        <div class="nitem">
+          <div class="nico">📷</div>
+          <h4>Escanear / Compartir</h4>
+          <p>Muestra tu QR personal o escanea el de otro invitado para completar misiones y sumar puntos.</p>
+        </div>
+        <div class="nitem">
+          <div class="nico">⚙️</div>
+          <h4>Ajustes</h4>
+          <p>Tu perfil, datos de sala, ayuda, reportar incidencia y botones de salir o cerrar sala.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHATS Y RETOS -->
+    <section id="chats">
+      <div class="sec-hdr">
+        <div class="sec-ico">💬</div>
+        <div>
+          <h2>Chats y Verdad o Reto</h2>
+          <p>Cómo interactuar con otros asistentes</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Iniciar contacto</h3>
+        <p>Desde la Home, toca el perfil de cualquier invitado. Se abre una pantalla con dos opciones: <strong>Enviar chat</strong> o <strong>Verdad o Reto</strong>. El sistema envía una notificación de alta prioridad (vibración estilo llamada) al receptor.</p>
+      </div>
+      <div class="card">
+        <h3>Aceptar o rechazar</h3>
+        <p>El receptor ve la foto del emisor con dos opciones: <strong>✓ Aceptar</strong> o <strong>✗ Rechazar</strong>. Mientras no tome una decisión, su pantalla de home queda bloqueada para evitar que ignore la solicitud.</p>
+      </div>
+      <div class="card">
+        <h3>Si rechazan tu solicitud</h3>
+        <p>Recibirás: <em>"UserX está enfocado en otra misión en este momento. ¡Sigue probando con otros!"</em> — así evitamos el sentimiento de rechazo. El usuario rechazado no puede volver a enviarte solicitudes, a menos que tú lo contactes primero.</p>
+      </div>
+      <div class="card">
+        <h3>Verdad o Reto</h3>
+        <p>Si ambos aceptan, la app genera una <strong>Verdad</strong> o un <strong>Reto</strong> al azar adaptado al contexto del evento. Esto os obliga a buscaros físicamente en la sala. Al completarlo, la interacción queda guardada como chat activo.</p>
+      </div>
+      <div class="ibox">
+        <strong>Nota:</strong> Los chats solo existen mientras la sala está activa. Al cerrar la sala, todas las conversaciones se eliminan.
+      </div>
+    </section>
+
+    <!-- JUEGO Y PUNTOS -->
+    <section id="juego">
+      <div class="sec-hdr">
+        <div class="sec-ico">🏆</div>
+        <div>
+          <h2>Juego y puntos</h2>
+          <p>Retos flash, QRs y el ranking de la fiesta</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>¿Cómo se ganan puntos?</h3>
+        <p>Hay tres formas de sumar puntos en VOO, cada una con su propio valor:</p>
+        <div class="reto-states" style="margin-top:12px;">
+          <div class="rstate"><div class="rdot g"></div><strong>Reto Flash</strong><span>completar un reto flash activo en la sala — +30 pts</span></div>
+          <div class="rstate"><div class="rdot y"></div><strong>Match / Verdad o Reto</strong><span>aceptar y completar una propuesta de Verdad o Reto en el chat — +5 pts cada uno</span></div>
+          <div class="rstate"><div class="rdot r"></div><strong>Reto en pareja</strong><span>completar un reto que involucra a dos personas concretas — +50 pts cada uno</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Retos flash automáticos</h3>
+        <p>Cada 30 minutos la app lanza automáticamente un reto flash a toda la sala con una notificación: <em>"¡RETO FLASH ACTIVO!"</em>. Para completarlo, tienes que encontrar físicamente al asistente que cumple la condición del reto y <strong>escanear su QR</strong>. La app valida automáticamente con los datos del perfil si el escaneo es correcto. Vale 30 pts.</p>
+      </div>
+
+      <div class="card">
+        <h3>Retos flash del host</h3>
+        <p>El host puede lanzar retos personalizados manualmente en cualquier momento desde el apartado de Retos. El sistema de verificación cambia: es el <strong>host quien escanea el QR</strong> del invitado que cumplió el reto para validarlo. También vale 30 pts.</p>
+      </div>
+
+      <div class="card">
+        <h3>Escanear / Compartir QR</h3>
+        <p>Cada invitado tiene su propio QR personal como identificador único en la sala. Escanearlo es la prueba física de que dos personas se han encontrado. El mismo QR no puede escanearse dos veces por la misma persona para el mismo reto.</p>
+      </div>
+
+      <div class="card">
+        <h3>Colores de los retos</h3>
+        <div class="reto-states" style="margin-top:8px;">
+          <div class="rstate"><div class="rdot g"></div><strong>Verde:</strong> <span>Próximo — el reto saldrá pronto</span></div>
+          <div class="rstate"><div class="rdot y"></div><strong>Amarillo:</strong> <span>Activo — puedes completarlo ahora</span></div>
+          <div class="rstate"><div class="rdot r"></div><strong>Rojo:</strong> <span>Expirado — ya no se puede completar</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PODERES VOO -->
+    <section id="poderes">
+      <div class="sec-hdr">
+        <div class="sec-ico">⚡</div>
+        <div>
+          <h2>Poderes VOO</h2>
+          <p>Desbloquéalos acumulando puntos en la fiesta</p>
+        </div>
+      </div>
+      <p style="font-size:14px; color:var(--voo-muted); margin-bottom:18px;">Los poderes se desbloquean automáticamente al alcanzar el umbral de puntos. Accede a ellos desde el apartado <strong>Ranking</strong>.</p>
+      <div class="pcard">
+        <div class="plvl">🕵️</div>
+        <div class="pinfo">
+          <h4>Nivel 1 — El Chismoso</h4>
+          <p>Puedes ver qué usuarios han visitado tu perfil — los que estuvieron a punto de escribirte. También desbloquea ver las respuestas de afinidad de alguien antes de contactarle, útil para saber con quién tienes más en común.</p>
+        </div>
+        <div class="ppts">50 pts</div>
+      </div>
+      <div class="pcard">
+        <div class="plvl">💘</div>
+        <div class="pinfo">
+          <h4>Nivel 2 — El Cupido</h4>
+          <p>Puedes lanzar un reto de forma anónima a dos personas concretas de la sala. La verificación es mutua: ambos usuarios se escanean el QR entre sí para completarlo. Cada uno gana 50 pts.</p>
+        </div>
+        <div class="ppts">100 pts</div>
+      </div>
+      <div class="pcard">
+        <div class="plvl">👑</div>
+        <div class="pinfo">
+          <h4>Nivel 3 — Rey de la Pista</h4>
+          <p>Ganas el derecho a lanzar un Reto Flash a toda la sala. La app te ofrece varias opciones y tú eliges cuál lanzar. La verificación la haces tú: escaneas el QR del invitado que completó el reto para validarlo.</p>
+        </div>
+        <div class="ppts">150 pts</div>
+      </div>
+      <div class="ibox">
+        <strong>Importante:</strong> Cada poder tiene un cooldown — no puedes usarlos de forma continuada. Úsalos en el momento justo para maximizar el impacto.
+      </div>
+    </section>
+
+    <!-- AJUSTES -->
+    <section id="ajustes">
+      <div class="sec-hdr">
+        <div class="sec-ico">⚙️</div>
+        <div>
+          <h2>Ajustes</h2>
+          <p>Tu perfil, sala y opciones</p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tbtn act" onclick="showTab(this,'t-guest')">Invitado</button>
+        <button class="tbtn" onclick="showTab(this,'t-host')">Host</button>
+      </div>
+
+      <div id="t-guest" class="tc act">
+        <div class="card">
+          <h3>Burbuja de perfil</h3>
+          <p>Muestra tu foto con el borde de color de tu estado, nombre, nivel VOO actual (ninguno si no lo has activado), cantidad de premios ganados y número de matches realizados.</p>
+        </div>
+        <div class="card">
+          <h3>Datos de sala</h3>
+          <p>Código de la sala, cantidad total de invitados y cuántos matches has hecho tú personalmente en este evento.</p>
+        </div>
+        <div class="card">
+          <h3>Opciones</h3>
+          <p><strong>Ayuda</strong> — abre esta página.<br>
+          <strong>Manual de uso</strong> — abre este manual.<br>
+          <strong>Reportar incidencia</strong> — abre tu app de correo para enviar un reporte al equipo de VOO.</p>
+        </div>
+        <div class="card">
+          <h3>Salir de la sala</h3>
+          <p>Abandona la sala voluntariamente. Tu perfil se elimina de la lista y pierdes el acceso a los chats y retos activos. Si quisieras volver a entrar, tendrías que repetir el proceso de registro.</p>
+        </div>
+      </div>
+
+      <div id="t-host" class="tc">
+        <div class="card">
+          <h3>Burbuja de perfil</h3>
+          <p>Igual que el invitado: foto, borde de estado, nombre, nivel VOO, premios y matches.</p>
+        </div>
+        <div class="card">
+          <h3>Datos de sala</h3>
+          <p>Código de sala, cantidad total de invitados, tus matches y, adicionalmente: <strong>cantidad de usuarios baneados</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>Banear usuario</h3>
+          <p>Se abre una lista de los invitados activos con foto, nombre y color de estado. Selecciona al invitado y confirma. El invitado baneado <strong>no puede volver a entrar</strong> a la misma sala aunque tenga el código.</p>
+        </div>
+        <div class="card">
+          <h3>Cerrar sala</h3>
+          <p>Finaliza el evento. Se notifica a todos los invitados, todos los datos temporales se eliminan (perfiles, chats, puntos) y todos son redirigidos a la pantalla de bienvenida. <strong>Esta acción es irreversible.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-hdr">
+        <div class="sec-ico">❓</div>
+        <div>
+          <h2>Preguntas frecuentes</h2>
+          <p>Las dudas más comunes</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="fq" onclick="toggleFaq(this)">¿Puedo cambiar mi estado una vez dentro de la sala? <span class="fq-arrow">›</span></button>
+        <div class="fa">No. Una vez que entras a la sala, tu perfil queda fijo. Elige bien tu estado antes de confirmar la entrada.</div>
+      </div>
+      <div class="faq-item">
+        <button class="fq" onclick="toggleFaq(this)">¿Qué pasa si me voy del evento antes de que cierre la sala? <span class="fq-arrow">›</span></button>
+        <div class="fa">Recibirás una notificación de confirmación de presencia cada 3–4 horas. Si no confirmas en 10 minutos o si el sistema detecta que estás fuera del radio de 2km, se te expulsa automáticamente de la sala.</div>
+      </div>
+      <div class="faq-item">
+        <button class="fq" onclick="toggleFaq(this)">¿Se guardan mis fotos o chats después del evento? <span class="fq-arrow">›</span></button>
+        <div class="fa">No. VOO no almacena datos permanentes. Al cerrarse la sala, todo se elimina: perfiles, fotos, chats, puntos y premios. Es parte del concepto "ahora o nunca".</div>
+      </div>
+      <div class="faq-item">
+        <button class="fq" onclick="toggleFaq(this)">¿Por qué me rechazó alguien pero sigo viendo su perfil en la sala? <span class="fq-arrow">›</span></button>
+        <div class="fa">El rechazo bloquea los intentos de contacto en esa dirección, pero no oculta el perfil. Si esa persona decide contactarte primero, el bloqueo se rompe automáticamente.</div>
+      </div>
+      <div class="faq-item">
+        <button class="fq" onclick="toggleFaq(this)">¿Para qué sirve el QR personal? <span class="fq-arrow">›</span></button>
+        <div class="fa">Es tu identificador único en la sala. Otros invitados deben escanearlo para completar retos que te involucren. También funciona como prueba física de que dos personas se han encontrado.</div>
+      </div>
+      <div class="faq-item">
+        <button class="fq" onclick="toggleFaq(this)">¿Cuánto cuesta VOO? <span class="fq-arrow">›</span></button>
+        <div class="fa">Las salas de hasta 30 personas son completamente gratuitas. Para salas más grandes, el host necesita una suscripción de 5€/mes. Los invitados no pagan nada.</div>
+      </div>
+      <div class="faq-item">
+        <button class="fq" onclick="toggleFaq(this)">¿Cómo reporto un problema técnico o de comportamiento? <span class="fq-arrow">›</span></button>
+        <div class="fa">Ve a Ajustes → "Reportar incidencia". Se abrirá tu app de correo con el destinatario ya configurado. Describe el problema con el mayor detalle posible.</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <p>VOO · <em>Es ahora o nunca</em> · <a href="mailto:soporte@voo.app">soportevoo@gmail.com</a></p>
+    <p style="margin-top:6px; font-size:12px;">Manual de uso v1.0 · 2026</p>
+  </div>
+</footer>
+
+</div>
+
+<script>
+function showTab(btn, id) {
+  btn.closest('.content section').querySelectorAll('.tbtn').forEach(b => b.classList.remove('act'));
+  btn.closest('.content section').querySelectorAll('.tc').forEach(t => t.classList.remove('act'));
+  btn.classList.add('act');
+  document.getElementById(id).classList.add('act');
+}
+function toggleFaq(btn) {
+  const ans = btn.nextElementSibling;
+  const open = btn.classList.contains('open');
+  btn.closest('section').querySelectorAll('.fq').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
+  if (!open) { btn.classList.add('open'); ans.classList.add('open'); }
+}
+
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('.content section[id]');
+const links = document.querySelectorAll('.sb-link');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  links.forEach(l => {
+    l.classList.remove('act');
+    if(l.getAttribute('href') === '#' + cur) l.classList.add('act');
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
